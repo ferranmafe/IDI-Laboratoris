@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'MyForm.ui'
 **
-** Created by: Qt User Interface Compiler version 5.6.1
+** Created by: Qt User Interface Compiler version 5.8.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -77,8 +77,8 @@ public:
 
     void retranslateUi(QWidget *MyForm)
     {
-        MyForm->setWindowTitle(QApplication::translate("MyForm", "Form", 0));
-        pushButton->setText(QApplication::translate("MyForm", "&Sortir", 0));
+        MyForm->setWindowTitle(QApplication::translate("MyForm", "Form", Q_NULLPTR));
+        pushButton->setText(QApplication::translate("MyForm", "&Sortir", Q_NULLPTR));
     } // retranslateUi
 
 };
