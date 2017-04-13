@@ -2,23 +2,25 @@
 
 #include <iostream>
 
-MyGLWidget::MyGLWidget (QWidget* parent) : QOpenGLWidget(parent)
-{
+MyGLWidget::MyGLWidget (QWidget* parent) : QOpenGLWidget(parent) {
   setFocusPolicy(Qt::ClickFocus);  // per rebre events de teclat
   scale = 1.0f;
   giry = 0.0f;
+  fovi = (float)M_PI/2.0f;
+  fov = fovi;
+  ra = 1.0f;
+  znear = 0.5f;
+  zfar = 3.0f;
 }
 
-MyGLWidget::~MyGLWidget ()
-{
+MyGLWidget::~MyGLWidget () {
   if (program != NULL)
     delete program;
 }
 
-void MyGLWidget::initializeGL ()
-{
+void MyGLWidget::initializeGL() {
   // Cal inicialitzar l'ús de les funcions d'OpenGL
-  initializeOpenGLFunctions();  
+  initializeOpenGLFunctions();
 
   glClearColor(0.5, 0.7, 1.0, 1.0); // defineix color de fons (d'esborrat)
   glEnable(GL_DEPTH_TEST);
@@ -29,15 +31,17 @@ void MyGLWidget::initializeGL ()
   modelTransform ();
 }
 
-void MyGLWidget::paintGL () 
-{
+void MyGLWidget::paintGL () {
   // Esborrem el frame-buffer
   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   // Carreguem la transformació de model
-  modelTransform ();
+
   viewTransform();
+  projectTransform();
   glBindVertexArray (VAO);
+
+  modelTransform ();
   // pintem
   glDrawArrays(GL_TRIANGLES, 0, 3 * model.faces().size());
 
@@ -50,8 +54,7 @@ void MyGLWidget::paintGL ()
   glBindVertexArray (0);
 }
 
-void MyGLWidget::modelTransform () 
-{
+void MyGLWidget::modelTransform () {
   // Matriu de transformació de model
   glm::mat4 transform (1.0f);
   transform = glm::scale(transform, glm::vec3(scale));
@@ -59,8 +62,7 @@ void MyGLWidget::modelTransform ()
   glUniformMatrix4fv(transLoc, 1, GL_FALSE, &transform[0][0]);
 }
 
-void MyGLWidget::viewTransform ()
-{
+void MyGLWidget::viewTransform () {
   // Matriu de projecciÃ³ del model. lookAt(obs, vrp, vup)
   glm::mat4 view = glm::lookAt(glm::vec3(0.0, 0.0, 1.0),
                                glm::vec3(0.0, 0.0, 0.0),
@@ -68,20 +70,21 @@ void MyGLWidget::viewTransform ()
   glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &view[0][0]);
 }
 
-void MyGLWidget::projectTransform ()
-{
+void MyGLWidget::projectTransform () {
   // Matriu de projecciÃ³ del model: perspective(fov (en rad), ra, znear, zfar)
-  glm::mat4 projecta = glm::perspective((float)M_PI/2.0f, 1.0f, 0.5f, 3.0f);
+  glm::mat4 projecta = glm::perspective(fov, ra, znear, zfar);
   glUniformMatrix4fv(projectaLoc, 1, GL_FALSE, &projecta[0][0]);
 }
 
-void MyGLWidget::resizeGL (int w, int h) 
-{
-  glViewport(0, 0, w, h);
+void MyGLWidget::resizeGL (int w, int h) {
+    ra = float (w) / float (h);
+    if (ra < 1.0) {
+      fov = 2.0 * atan(tan(fovi/2.0)/ra);
+    }
+    glViewport(0, 0, w, h);
 }
 
-void MyGLWidget::keyPressEvent(QKeyEvent* event) 
-{
+void MyGLWidget::keyPressEvent(QKeyEvent* event) {
   makeCurrent();
   switch (event->key()) {
     case Qt::Key_S: { // escalar a més gran
@@ -100,8 +103,7 @@ void MyGLWidget::keyPressEvent(QKeyEvent* event)
   update();
 }
 
-void MyGLWidget::createBuffers () 
-{
+void MyGLWidget::createBuffers () {
   // Dades de la caseta
   // Dos VBOs, un amb posició i l'altre amb color
   model.load("../../models/HomerProves.obj");
@@ -163,8 +165,7 @@ void MyGLWidget::createBuffers ()
    glBindVertexArray (0);
 }
 
-void MyGLWidget::carregaShaders()
-{
+void MyGLWidget::carregaShaders() {
   // Creem els shaders per al fragment shader i el vertex shader
   QOpenGLShader fs (QOpenGLShader::Fragment, this);
   QOpenGLShader vs (QOpenGLShader::Vertex, this);
@@ -190,6 +191,3 @@ void MyGLWidget::carregaShaders()
   viewLoc = glGetUniformLocation(program->programId(), "view");
   projectaLoc = glGetUniformLocation(program->programId(), "PR");
 }
-
-
-

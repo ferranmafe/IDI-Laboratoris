@@ -8,7 +8,7 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include "model.h"
 
-class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core 
+class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 {
   Q_OBJECT
 
@@ -42,12 +42,12 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     GLuint VAO_terra, VBO_vertexs_terra, VBO_color_terra;
     // Program
     QOpenGLShaderProgram *program;
-    // Internal vars
-    float scale;
-    float giry;
+    // Scale and rotate values
+    float scale, giry;
+    // Perspective values
+    float fov, ra, fovi, znear, zfar;
     glm::vec3 pos;
-    
-    Model model;
-    
-};
 
+    Model model;
+
+};
