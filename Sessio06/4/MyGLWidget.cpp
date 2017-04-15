@@ -96,7 +96,6 @@ void MyGLWidget::inicialitzaCamera(){
   fovi  = 2.0 * asin(radi / d); // (float)M_PI / 2.0f;
   fov   = fovi;
   ra    = 1.0;
-  angle = 0.0;
 
   //Calculem la view matrix i la project matrix
   viewTransform ();
@@ -213,7 +212,7 @@ void MyGLWidget::createBuffers () {
   //Al acabar desactivem el VAO
   glBindVertexArray (0);
   //------------------------------------------------------------
-  glm::vec3 posicio[4] = {
+  /*glm::vec3 posicio[4] = {
          glm::vec3(-1.0, -1.0, 1.0),
          glm::vec3( 1.0, -1.0, 1.0),
          glm::vec3(-1.0, -1.0, -1.0),
@@ -246,7 +245,7 @@ void MyGLWidget::createBuffers () {
    glVertexAttribPointer(colorLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
    glEnableVertexAttribArray(colorLoc);
 
-   glBindVertexArray (0);
+   glBindVertexArray (0);*/
 }
 
 //Funció que genera els shaders, els uniforms que usarem
