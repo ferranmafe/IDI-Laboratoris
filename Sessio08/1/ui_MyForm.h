@@ -13,10 +13,12 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QSpacerItem>
+#include <QtWidgets/QSlider>
+#include <QtWidgets/QSpinBox>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include "MyGLWidget.h"
@@ -26,19 +28,24 @@ QT_BEGIN_NAMESPACE
 class Ui_MyForm
 {
 public:
-    QHBoxLayout *horizontalLayout;
+    QGridLayout *gridLayout;
+    QHBoxLayout *horizontalLayout_2;
     MyGLWidget *widget;
     QVBoxLayout *verticalLayout;
-    QSpacerItem *verticalSpacer;
+    QHBoxLayout *horizontalLayout;
+    QSlider *verticalSlider;
+    QSpinBox *spinBox;
     QPushButton *pushButton;
 
     void setupUi(QWidget *MyForm)
     {
         if (MyForm->objectName().isEmpty())
             MyForm->setObjectName(QStringLiteral("MyForm"));
-        MyForm->resize(819, 726);
-        horizontalLayout = new QHBoxLayout(MyForm);
-        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        MyForm->resize(634, 484);
+        gridLayout = new QGridLayout(MyForm);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setObjectName(QStringLiteral("horizontalLayout_2"));
         widget = new MyGLWidget(MyForm);
         widget->setObjectName(QStringLiteral("widget"));
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -47,13 +54,31 @@ public:
         sizePolicy.setHeightForWidth(widget->sizePolicy().hasHeightForWidth());
         widget->setSizePolicy(sizePolicy);
 
-        horizontalLayout->addWidget(widget);
+        horizontalLayout_2->addWidget(widget);
 
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
-        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+        horizontalLayout = new QHBoxLayout();
+        horizontalLayout->setObjectName(QStringLiteral("horizontalLayout"));
+        verticalSlider = new QSlider(MyForm);
+        verticalSlider->setObjectName(QStringLiteral("verticalSlider"));
+        verticalSlider->setMinimum(1);
+        verticalSlider->setMaximum(180);
+        verticalSlider->setValue(90);
+        verticalSlider->setOrientation(Qt::Vertical);
 
-        verticalLayout->addItem(verticalSpacer);
+        horizontalLayout->addWidget(verticalSlider);
+
+
+        verticalLayout->addLayout(horizontalLayout);
+
+        spinBox = new QSpinBox(MyForm);
+        spinBox->setObjectName(QStringLiteral("spinBox"));
+        spinBox->setMinimum(1);
+        spinBox->setMaximum(180);
+        spinBox->setValue(90);
+
+        verticalLayout->addWidget(spinBox);
 
         pushButton = new QPushButton(MyForm);
         pushButton->setObjectName(QStringLiteral("pushButton"));
@@ -66,11 +91,18 @@ public:
         verticalLayout->addWidget(pushButton);
 
 
-        horizontalLayout->addLayout(verticalLayout);
+        horizontalLayout_2->addLayout(verticalLayout);
+
+
+        gridLayout->addLayout(horizontalLayout_2, 0, 0, 1, 1);
 
 
         retranslateUi(MyForm);
         QObject::connect(pushButton, SIGNAL(clicked()), MyForm, SLOT(close()));
+        QObject::connect(spinBox, SIGNAL(valueChanged(int)), verticalSlider, SLOT(setValue(int)));
+        QObject::connect(spinBox, SIGNAL(valueChanged(int)), widget, SLOT(changeFov(int)));
+        QObject::connect(verticalSlider, SIGNAL(valueChanged(int)), widget, SLOT(changeFov(int)));
+        QObject::connect(verticalSlider, SIGNAL(valueChanged(int)), spinBox, SLOT(setValue(int)));
 
         QMetaObject::connectSlotsByName(MyForm);
     } // setupUi

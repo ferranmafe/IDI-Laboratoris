@@ -115,11 +115,10 @@ void MyGLWidget::inicialitzaCamera(){
   //Inicialitzem la resta de valors de càmera
   znear = (d - radi) / 2.0;
   zfar  = d + radi;
-  left   = leftIni   = -radi;
-  right  = rightIni  = radi;
-  top    = topIni    = radi;
-  bottom = bottomIni = -radi;
-  ra = 1.0;
+  fovi  = 2.0 * asin(radi / d); // (float)M_PI / 2.0f;
+  fov   = fovi;
+  deltaFov = (float)M_PI / 50.0;
+  ra    = 1.0;
 
   //Calculem la view matrix i la project matrix
   viewTransform ();
@@ -240,7 +239,8 @@ void MyGLWidget::viewTransform () {
 
 //Funció que genera la Project Matrix
 void MyGLWidget::projectTransform () {
-  glm::mat4 projecta = glm::ortho(left, right, bottom, top, znear, zfar);
+  // Matriu de Projecció del model: perspective(fov (en rad), ra, znear, zfar)
+  glm::mat4 projecta = glm::perspective(fov, ra, znear, zfar);
   //Passem la matriu als shaders
   glUniformMatrix4fv(projectaLoc, 1, GL_FALSE, &projecta[0][0]);
 }
@@ -248,16 +248,13 @@ void MyGLWidget::projectTransform () {
 //Funció que s'activa només quan redimensionem el viewport, la qual redimensiona
 //el fov quan calgui i la ra sempre
 void MyGLWidget::resizeGL (int w, int h) {
-    float rViewport = float (w) / float (h);
-    ra = rViewport;
-    if (rViewport < 1.0) { // incrementem alÃ§ada hw
-      top          = topIni/ra;
-      bottom       = bottomIni/ra;
+    //Calculem ra de nou
+    ra = float (w) / float (h);
+    //Si ra es menor que 1, toca recalcular el fov
+    if (ra < 1.0) {
+      fov = 2.0 * atan(tan(fovi/2.0)/ra);
     }
-    if (rViewport > 1.0) { // incrementem amplada aw
-        left = leftIni * ra;
-        right = rightIni * ra;
-    }
+    //Indiquem el nou viewport
     glViewport(0, 0, w, h);
 }
 
@@ -410,3 +407,32 @@ void MyGLWidget::mouseMoveEvent(QMouseEvent *e) {
       xClick = e->x();
       yClick = e->y();
     }
+
+//Funció que s'activa en el cas de que succeeixi un event de teclat. En el
+//nostre cas la funció controla el fov per tal de fer Zoom
+void MyGLWidget::keyPressEvent(QKeyEvent* event) {
+  makeCurrent();
+  switch (event->key()) {
+    case Qt::Key_Z: { // escalar a més gran
+      if (fov < (float)M_PI) {
+        fov += deltaFov;
+    }
+      break;
+    }
+    case Qt::Key_X: { // escalar a més petit
+      if (fov > deltaFov) {
+        fov -= deltaFov;
+      }
+      break;
+    }
+    default: event->ignore(); break;
+  }
+  update();
+}
+
+void MyGLWidget::changeFov(int fov_s) {
+    makeCurrent();
+    fov = (float) M_PI * fov_s / 180.0;
+    projectTransform();
+    update();
+}

@@ -16,6 +16,9 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     MyGLWidget (QWidget *parent=0);
     ~MyGLWidget ();
 
+  public slots:
+    void changeFov(int);
+
   protected:
     // initializeGL - Aqui incluim les inicialitzacions del contexte grafic.
     virtual void initializeGL ( );
@@ -29,6 +32,7 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     virtual void mousePressEvent   (QMouseEvent *event);
     virtual void mouseReleaseEvent (QMouseEvent *event);
     virtual void mouseMoveEvent    (QMouseEvent *event);
+    virtual void keyPressEvent     (QKeyEvent* event);
 
   private:
     void createBuffers ();
@@ -51,9 +55,9 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     // Program
     QOpenGLShaderProgram *program;
     // Perspective values
-    float left, right, bottom, top, leftIni, rightIni, bottomIni, topIni, znear, zfar, ra;
+    float fov, ra, fovi, znear, zfar;
     glm::vec3 eixX, eixY, eixZ, obs, vrp;
-    float theta, psi, phi, deltaA;
+    float theta, psi, phi, deltaA, deltaFov;
     float radi;
     glm::vec3 centre, centrePatricio;
     glm::vec3 pos;

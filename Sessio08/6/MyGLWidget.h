@@ -16,6 +16,9 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     MyGLWidget (QWidget *parent=0);
     ~MyGLWidget ();
 
+  public slots:
+    void setColorTerra (int, int, int);
+
   protected:
     // initializeGL - Aqui incluim les inicialitzacions del contexte grafic.
     virtual void initializeGL ( );
@@ -31,7 +34,8 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     virtual void mouseMoveEvent    (QMouseEvent *event);
 
   private:
-    void createBuffers ();
+    void createBuffersPatricio();
+    void createBuffersTerra();
     void carregaShaders ();
     void modelTransformPatricio1 ();
     void modelTransformPatricio2 ();
@@ -65,7 +69,4 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     typedef enum {NOINTERACCIO, ROTACIO} Interaccio;
     Interaccio interaccio;
     int        xClick, yClick;
-
-    public slots:
-        void setColorTerra (int, int, int);
 };

@@ -1,0 +1,167 @@
+IDI 16-17 Q2, Laboratori
+
+Guio Sessio08 A    Interaccio via widgets
+
+Exerici 6: Paleta de colors amb widget promoted
+-----------------------------------------------------------
+
+1. Fes un directori per a la sessio d'avui i, dins d'ell, crea'n
+   un altre per a l'exercici 6. Per exemple
+   
+       ~/idi/sessionsLab/sessio08/exercici6
+
+   fes que sigui el directori de treball i copia dins d'ell
+   el darrer resultat de la darrera sessio.
+
+2. Edita Widget per a la paleta de colors MyColorTerra
+
+2.1 Definicio  MyColorTerra.h
+
+   /*
+    * Paleta de colors MyLabel.h
+    *
+    * Widget que hereta de QLabel
+    * que cal incloure en  MyForm.ui amb promote
+    */
+
+    #define GLM_FORCE_RADIANS
+
+    #include <QOpenGLFunctions_3_3_Core>
+    #include <QOpenGLWidget>
+    #include <QLabel>
+    #include <QColor>
+    #include <QString>
+
+    class MyColorTerra : public QLabel
+    {
+      Q_OBJECT
+
+      public:
+        MyColorTerra (QWidget *parent);
+        // ~MyColorTerra ();
+
+      public slots:
+        void setRoig (int);
+        void setVerd (int);
+        void setBlau (int);
+
+      signals:
+        void sendColorTerra(int, int, int);
+
+      private:  // global variables
+        int roig, verd, blau;
+    };
+
+
+2.2 Implementacio MyColorTerra.cpp
+
+    * Esbrineu com es formaten cadenes en Qt
+    * Google amb "Qt QString formatting"
+
+    #include "MyColorTerra.h"
+
+    MyColorTerra::MyColorTerra (QWidget *parent) : QLabel(parent)
+    {
+      roig = 255;
+      verd = 255;
+      blau = 255;
+  
+      setStyleSheet(QString("background-color:rgb(%1, %2, %3)")
+  		            .arg(roig).arg(verd).arg(blau));
+
+      // inicialitza el color de la paleta en MyEuler.cpp
+      emit sendColorTerra(roig, verd, blau);
+    }
+
+    void MyColorTerra::setRoig(int r)
+    {
+      roig = r;
+      setStyleSheet(QString("background-color:rgb(%1, %2, %3);")
+		            .arg(roig).arg(verd).arg(blau));
+      emit sendColorTerra(roig, verd, blau);
+    }
+
+    void MyColorTerra::setVerd(int g)
+    {
+      verd = g;
+      setStyleSheet(QString("background-color:rgb(%1, %2, %3);")
+  		            .arg(roig).arg(verd).arg(blau));
+      emit sendColorTerra(roig, verd, blau);
+    } 
+
+    void MyColorTerra::setBlau(int b)
+    {
+      blau = b;
+      setStyleSheet(QString("background-color:rgb(%1, %2, %3);")
+		            .arg(roig).arg(verd).arg(blau));
+      emit sendColorTerra(roig, verd, blau);
+    }
+
+
+3. Edita el teu widget MyGLWidget
+
+3.1 Edita la definicio MyGLWidget.h, per exemple
+
+    private:
+      void createBuffersTerra ();
+      void createBuffersPatricio ();
+
+      ...
+      
+      float roig, verd, blau;
+
+    public slots:
+      void setColorTerra (int, int, int);
+
+3.2 Edita la implementacio MyGLWidget.cpp, per exemple
+
+    MyGLWidget::MyGLWidget (QWidget* parent) : QOpenGLWidget(parent)
+
+      roig = 0.6;  // Cal?
+      verd = 0.0;
+      blau = 1.0;
+
+    void MyGLWidget::initializeGL ()
+
+      createBuffersTerra();
+      createBuffersPatricio();
+
+    Resulta convenient separar en funcions
+    diferents la creacio dels buffers del terra
+    i la del model Patricio
+    
+      void MyGLWidget::createBuffersTerra {}
+
+      void MyGLWidget::createBuffersPatricio {}
+ 
+   Slot que servira el signal generat per la paleta de colors
+
+      void MyGLWidget::setColorTerra (int r, int g, int b)
+      {
+         makeCurrent();
+         roig = (float)r / 255.0;
+         verd = (float)g / 255.0;
+         blau = (float)b / 255.0;
+         createBuffersTerra();
+         update ();
+      }
+
+
+4. Usant el designer, inclou el widget MyColorTerra en la interfase
+   grafica promocionant-lo com un QLabel.
+
+5. Edita de manera convenient el projecte.pro incloent el *.h i els
+   *.cpp que calgui.
+
+6. Genera l'executable, executa i analitza els resultats.
+
+7. Fes un directori per a la sessio d'avui i, dins d'ell, crea'n
+   un altre per al primer exercici d'avui. Per exemple
+   
+       ~/idi/sessionsLab/sessio08/exercici1
+
+   fes que sigui el directori de treball i copia dins d'ell
+   el darrer resultat de la darrera sessio.
+
+   Ara resol l'exercici 1 i, successivament, la resta.
+   CAL QUE ACABIS TOTS ELS EXERCICIS!

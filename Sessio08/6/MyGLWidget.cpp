@@ -9,6 +9,7 @@ MyGLWidget::MyGLWidget (QWidget* parent) : QOpenGLWidget(parent) {
   yClick     = 0;
   deltaA     = M_PI / 180.0;
   interaccio = NOINTERACCIO;
+  roig = verd = blau = 1.0;
   setFocusPolicy(Qt::ClickFocus);
 }
 
@@ -36,7 +37,8 @@ void MyGLWidget::initializeGL() {
   carregaShaders();
 
   //Creem els VBO amb tota la informació sobre el nostre model
-  createBuffers();
+  createBuffersPatricio();
+  createBuffersTerra();
 
   //Inicialitzem tots els paràmetres de la càmera (obs, vrp, up,...)
   inicialitzaCamera();
@@ -262,7 +264,7 @@ void MyGLWidget::resizeGL (int w, int h) {
 }
 
 //Funció que crea els VBO que s'usaràn per pintar els models
-void MyGLWidget::createBuffers () {
+void MyGLWidget::createBuffersPatricio () {
   //Carreguem les dades del nostre objecte a pintar
   model.load("../../models/Patricio.obj");
 
@@ -291,7 +293,9 @@ void MyGLWidget::createBuffers () {
 
   //Al acabar desactivem el VAO
   glBindVertexArray (0);
-  //------------------------------------------------------------
+}
+
+void MyGLWidget::createBuffersTerra() {
   glm::vec3 posicio[4] = {
          glm::vec3(-2.0, 0.0, 2.0),
          glm::vec3( 2.0, 0.0, 2.0),
@@ -299,10 +303,10 @@ void MyGLWidget::createBuffers () {
          glm::vec3( 2.0, 0.0, -2.0)
    };
    glm::vec3 color[4] = {
-         glm::vec3(1,0,0),
-         glm::vec3(0,0,1),
-         glm::vec3(0,0,1),
-         glm::vec3(1,0,0)
+         glm::vec3(roig,verd,blau),
+         glm::vec3(roig,verd,blau),
+         glm::vec3(roig,verd,blau),
+         glm::vec3(roig,verd,blau)
    };
 
    // Creació del Vertex Array Object per pintar
