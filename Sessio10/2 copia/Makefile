@@ -33,7 +33,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = Bloc3_Exemple1.0.0
-DISTDIR = /Users/ferranmartinez/Desktop/IDI-Laboratoris/Sessio09/6/.tmp/Bloc3_Exemple1.0.0
+DISTDIR = /Users/ferranmartinez/Desktop/IDI-Laboratoris/Sessio10/2/.tmp/Bloc3_Exemple1.0.0
 LINK          = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
 LFLAGS        = -headerpad_max_install_names -stdlib=libc++ -Wl,-syslibroot,/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk -mmacosx-version-min=10.9 $(EXPORT_QMAKE_XARCH_LFLAGS) -Wl,-rpath,/Users/ferranmartinez/Qt/5.8/clang_64/lib
 LIBS          = $(SUBLIBS) -F/Users/ferranmartinez/Qt/5.8/clang_64/lib -framework QtOpenGL -framework QtWidgets -framework QtGui -framework QtCore -framework DiskArbitration -framework IOKit -framework OpenGL -framework AGL 
@@ -208,6 +208,7 @@ DIST          = ../../../../Qt/5.8/clang_64/mkspecs/features/spec_pre.prf \
 		../../../../Qt/5.8/clang_64/mkspecs/features/qt_config.prf \
 		../../../../Qt/5.8/clang_64/mkspecs/macx-clang/qmake.conf \
 		../../../../Qt/5.8/clang_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../../Qt/5.8/clang_64/mkspecs/features/exclusive_builds.prf \
 		../../../../Qt/5.8/clang_64/mkspecs/features/mac/sdk.prf \
 		../../../../Qt/5.8/clang_64/mkspecs/features/toolchain.prf \
@@ -399,6 +400,7 @@ Makefile: Bloc3_Exemple.pro ../../../../Qt/5.8/clang_64/mkspecs/macx-clang/qmake
 		../../../../Qt/5.8/clang_64/mkspecs/features/qt_config.prf \
 		../../../../Qt/5.8/clang_64/mkspecs/macx-clang/qmake.conf \
 		../../../../Qt/5.8/clang_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../../Qt/5.8/clang_64/mkspecs/features/exclusive_builds.prf \
 		../../../../Qt/5.8/clang_64/mkspecs/features/mac/sdk.prf \
 		../../../../Qt/5.8/clang_64/mkspecs/features/toolchain.prf \
@@ -579,6 +581,7 @@ Makefile: Bloc3_Exemple.pro ../../../../Qt/5.8/clang_64/mkspecs/macx-clang/qmake
 ../../../../Qt/5.8/clang_64/mkspecs/features/qt_config.prf:
 ../../../../Qt/5.8/clang_64/mkspecs/macx-clang/qmake.conf:
 ../../../../Qt/5.8/clang_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 ../../../../Qt/5.8/clang_64/mkspecs/features/exclusive_builds.prf:
 ../../../../Qt/5.8/clang_64/mkspecs/features/mac/sdk.prf:
 ../../../../Qt/5.8/clang_64/mkspecs/features/toolchain.prf:
@@ -651,6 +654,7 @@ clean: compiler_clean
 
 distclean: clean 
 	-$(DEL_FILE) -r Bloc3_Exemple.app
+	-$(DEL_FILE) .qmake.stash
 	-$(DEL_FILE) Makefile
 
 
@@ -679,7 +683,7 @@ moc_MyForm.cpp: ui_MyForm.h \
 		MyForm.h \
 		moc_predefs.h \
 		../../../../Qt/5.8/clang_64/bin/moc
-	/Users/ferranmartinez/Qt/5.8/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/ferranmartinez/Qt/5.8/clang_64/mkspecs/macx-clang -I/Users/ferranmartinez/Desktop/IDI-Laboratoris/Sessio09/6 -I/usr/include/glm -I/Users/ferranmartinez/Desktop/IDI-Laboratoris/Model -I/Users/ferranmartinez/Qt/5.8/clang_64/lib/QtOpenGL.framework/Headers -I/Users/ferranmartinez/Qt/5.8/clang_64/lib/QtWidgets.framework/Headers -I/Users/ferranmartinez/Qt/5.8/clang_64/lib/QtGui.framework/Headers -I/Users/ferranmartinez/Qt/5.8/clang_64/lib/QtCore.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.1.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/include -F/Users/ferranmartinez/Qt/5.8/clang_64/lib MyForm.h -o moc_MyForm.cpp
+	/Users/ferranmartinez/Qt/5.8/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/ferranmartinez/Qt/5.8/clang_64/mkspecs/macx-clang -I/Users/ferranmartinez/Desktop/IDI-Laboratoris/Sessio10/2 -I/usr/include/glm -I/Users/ferranmartinez/Desktop/IDI-Laboratoris/Model -I/Users/ferranmartinez/Qt/5.8/clang_64/lib/QtOpenGL.framework/Headers -I/Users/ferranmartinez/Qt/5.8/clang_64/lib/QtWidgets.framework/Headers -I/Users/ferranmartinez/Qt/5.8/clang_64/lib/QtGui.framework/Headers -I/Users/ferranmartinez/Qt/5.8/clang_64/lib/QtCore.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.1.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/include -F/Users/ferranmartinez/Qt/5.8/clang_64/lib MyForm.h -o moc_MyForm.cpp
 
 moc_MyGLWidget.cpp: ../../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpenGLFunctions_3_3_Core \
 		../../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/qopenglfunctions_3_3_core.h \
@@ -775,7 +779,7 @@ moc_MyGLWidget.cpp: ../../../../Qt/5.8/clang_64/lib/QtGui.framework/Headers/QOpe
 		MyGLWidget.h \
 		moc_predefs.h \
 		../../../../Qt/5.8/clang_64/bin/moc
-	/Users/ferranmartinez/Qt/5.8/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/ferranmartinez/Qt/5.8/clang_64/mkspecs/macx-clang -I/Users/ferranmartinez/Desktop/IDI-Laboratoris/Sessio09/6 -I/usr/include/glm -I/Users/ferranmartinez/Desktop/IDI-Laboratoris/Model -I/Users/ferranmartinez/Qt/5.8/clang_64/lib/QtOpenGL.framework/Headers -I/Users/ferranmartinez/Qt/5.8/clang_64/lib/QtWidgets.framework/Headers -I/Users/ferranmartinez/Qt/5.8/clang_64/lib/QtGui.framework/Headers -I/Users/ferranmartinez/Qt/5.8/clang_64/lib/QtCore.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.1.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/include -F/Users/ferranmartinez/Qt/5.8/clang_64/lib MyGLWidget.h -o moc_MyGLWidget.cpp
+	/Users/ferranmartinez/Qt/5.8/clang_64/bin/moc $(DEFINES) --include ./moc_predefs.h -I/Users/ferranmartinez/Qt/5.8/clang_64/mkspecs/macx-clang -I/Users/ferranmartinez/Desktop/IDI-Laboratoris/Sessio10/2 -I/usr/include/glm -I/Users/ferranmartinez/Desktop/IDI-Laboratoris/Model -I/Users/ferranmartinez/Qt/5.8/clang_64/lib/QtOpenGL.framework/Headers -I/Users/ferranmartinez/Qt/5.8/clang_64/lib/QtWidgets.framework/Headers -I/Users/ferranmartinez/Qt/5.8/clang_64/lib/QtGui.framework/Headers -I/Users/ferranmartinez/Qt/5.8/clang_64/lib/QtCore.framework/Headers -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/8.1.0/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/usr/include -F/Users/ferranmartinez/Qt/5.8/clang_64/lib MyGLWidget.h -o moc_MyGLWidget.cpp
 
 compiler_moc_source_make_all:
 compiler_moc_source_clean:
